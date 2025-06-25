@@ -174,7 +174,7 @@ const Home = () => {
         </div>
         <div className="text-center mt-10">
           <button
-            onClick={() => (window.location.href = "/produk")}
+            onClick={() => (window.location.href = "/produk/all")}
             className="mt- bg-black text-white px-6 py-2 rounded-xl font-medium hover:bg-white hover:text-black border-1 border-black transition"
           >
             Lihat Semua Produk

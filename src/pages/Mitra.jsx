@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
 const Mitra = () => {
   const partners = [
@@ -83,6 +83,31 @@ const Mitra = () => {
     },
   ];
 
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    // Gandakan isi agar seamless
+    const totalScrollWidth = scrollContainer.scrollWidth / 2;
+    let reqId;
+    let scrollAmount = 1;
+
+    function autoScroll() {
+      if (scrollContainer.scrollLeft >= totalScrollWidth) {
+        scrollContainer.scrollLeft = 0;
+      } else {
+        scrollContainer.scrollLeft += scrollAmount;
+      }
+      reqId = requestAnimationFrame(autoScroll);
+    }
+
+    reqId = requestAnimationFrame(autoScroll);
+
+    return () => cancelAnimationFrame(reqId);
+  }, []);
+
   return (
     <section className="max-w-full mx-auto">
       <section
@@ -137,7 +162,7 @@ const Mitra = () => {
       </section>
 
       <section className="mb-2 border-b-2 border-[#4E2C83] py-16">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-9xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Mitra Terbaik, Solusi Hebat.
@@ -148,23 +173,31 @@ const Mitra = () => {
               menghadirkan solusi yang tepat, efisien, dan berstandar nasional.
             </p>
           </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-            {partners.map((partner, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-xl border-1 border-[#4E2C83] shadow-sm hover:shadow-md hover:scale-100 transition-shadow p-6 flex flex-col items-center justify-center"
-              >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="w-24 h-24 object-contain mb-4"
-                />
-                <p className="text-md font-semibold text-black text-center">
-                  {partner.name}
-                </p>
-              </div>
-            ))}
+          <div className="w-full overflow-hidden px-2 mb-12">
+            <div
+              ref={scrollRef}
+              className="flex flex-wrap gap-6 animate-scroll-mitra"
+              style={{
+                width: "max-content",
+                animation: "scrollMitra 60s linear infinite",
+              }}
+            >
+              {[...partners, ...partners].map((partner, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center bg-white rounded-xl border border-[#4E2C83] shadow-sm min-w-[320px] max-w-xs h-[100px] px-6 py-4 gap-4"
+                >
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="w-14 h-14 object-contain rounded-md border border-[#4E2C83] bg-white"
+                  />
+                  <p className="text-lg font-semibold text-black ml-2">
+                    {partner.name}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -235,7 +268,7 @@ const Mitra = () => {
         </section>
       </section>
 
-            {/* Bantuan Section */}
+      {/* Bantuan Section */}
       <section className="bg-white py-8 mt-20 ">
         <div className="text-center mb-10 max-w-6xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-black">

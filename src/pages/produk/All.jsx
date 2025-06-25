@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CategoryGrid from "../../components/CategoryGrid";
 
+
 const LED = () => {
   const [slide, setSlide] = useState(0);
   const images = ["/hero/BG1.png", "/hero/BG2.png", "/hero/BG3.png"];
@@ -256,7 +257,7 @@ const LED = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setSlide((prev) => (prev + 1) % images.length);
-    }, 5000);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -313,24 +314,7 @@ const LED = () => {
             backgroundImage: `url(${images[slide]})`,
           }}
         >
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-
-        {/* Content on Top */}
-        <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-semibold mb-6 drop-shadow-lg">
-            Magnustek LED Videotron
-          </h1>
-          <p className="text-lg font-medium max-w-7xl mb-8 drop-shadow-md">
-            Temukan solusi tampilan visual terbaik untuk kebutuhan bisnis Anda.
-            Magnustek menghadirkan berbagai produk LED Videotron berkualitas
-            tinggi dengan desain modern, teknologi terkini, dan performa
-            maksimal. Cocok untuk kebutuhan indoor maupun outdoor dengan
-            berbagai ukuran dan spesifikasi.
-          </p>
-          <button className="bg-white text-[#F46F22] font-semibold py-2 px-10 mt-28 rounded-xl text-lg shadow hover:bg-[#F46F22] hover:text-white transition">
-            Beli Sekarang
-          </button>
+          <div className="absolute inset-0 " />
         </div>
 
         {/* Carousel Indicator */}

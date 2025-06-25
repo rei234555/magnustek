@@ -11,7 +11,7 @@ const Profile = () => {
   const [userData, setUserData] = useState({
     firstName: "Rei",
     lastName: "Saputra",
-    username: "reiuser",
+    username: "user",
     email: "re@gmail.com",
     birthDate: "",
     phone: "",
