@@ -20,7 +20,7 @@ const Sidebar = () => {
       path: "#",
       image: "/produk.png",
       children: [
-        { label: "Tambah Kategori", path: "/admin/tambah-kategori" },
+        { label: "Kategori", path: "/admin/tambah-kategori" },
         { label: "Kelola Produk", path: "/admin/kelola" },
       ],
     },

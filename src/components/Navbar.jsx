@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaShoppingBasket, FaUser } from "react-icons/fa";
+import { FaSearch, FaShoppingBasket, FaUser, FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -7,6 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState(null);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
@@ -26,20 +27,23 @@ const Navbar = () => {
     navigate("/");
   };
 
-  // Fungsi bantu untuk menentukan apakah path sedang aktif
   const isActive = (path) =>
     location.pathname === path
       ? "text-[#F46F22]"
       : "text-gray-900 hover:text-[#F46F22]";
 
-  // Untuk menu dropdown yang mewakili beberapa sub-path
   const isDropdownActive = (basePath) =>
     location.pathname.startsWith(basePath)
       ? "text-[#F46F22]"
       : "text-gray-900 group-hover:text-[#F46F22]";
 
+  // Untuk close menu saat pindah halaman
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
   return (
-    <nav className="w-full flex justify-between items-center px-6 py-4 h-[72px] border-b border-[#F46F22] shadow-sm relative z-50 bg-white">
+    <section className="w-full flex justify-between items-center px-6 py-4 h-[72px] border-b border-[#F46F22] shadow-sm relative z-50 bg-white">
       {/* Logo */}
       <div className="flex items-center space-x-2">
         <Link to="/">
@@ -47,8 +51,17 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Menu Navigasi */}
-      <ul className="flex space-x-6 text-sm font-medium relative">
+      {/* Hamburger Icon */}
+      <button
+        className="lg:hidden flex items-center text-2xl text-[#F46F22] z-50"
+        onClick={() => setMobileMenuOpen((prev) => !prev)}
+        aria-label="Toggle menu"
+      >
+        {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+      </button>
+
+      {/* Menu Navigasi Desktop */}
+      <ul className="hidden lg:flex space-x-6 text-sm font-medium relative">
         <li className="flex items-center">
           <Link to="/" className={isActive("/")}>
             Beranda
@@ -65,7 +78,6 @@ const Navbar = () => {
           >
             Produk
           </span>
-
           {/* DROPDOWN CONTAINER */}
           <div className="fixed left-0 top-[72px] w-full bg-white shadow-lg z-50 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300">
             <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-5 gap-6">
@@ -82,7 +94,6 @@ const Navbar = () => {
                 </ul>
               </div>
               <div>
-                
                 <ul className="space-y-1 text-sm">
                   <li>
                     <Link
@@ -255,8 +266,8 @@ const Navbar = () => {
         </li>
       </ul>
 
-      {/* Ikon */}
-      <div className="flex items-center space-x-6 text-sm">
+      {/* Ikon Desktop */}
+      <div className="hidden lg:flex items-center space-x-6 text-sm">
         <div className="flex items-center space-x-1 cursor-pointer hover:text-[#F46F22]">
           <FaSearch />
           <span>Search</span>
@@ -304,10 +315,110 @@ const Navbar = () => {
         )}
       </div>
 
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 ${
+          mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        } lg:hidden`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white z-50 shadow-lg transform transition-transform duration-300 ${
+          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        } lg:hidden flex flex-col`}
+      >
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#F46F22]">
+          <Link to="/" onClick={() => setMobileMenuOpen(false)}>
+            <img src="/Magnus.png" alt="MagnusTek Logo" className="w-28" />
+          </Link>
+          <button
+            className="text-2xl text-[#F46F22]"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <FaTimes />
+          </button>
+        </div>
+        <ul className="flex flex-col space-y-2 px-6 py-4 text-base font-medium">
+          <li>
+            <Link to="/" className={isActive("/")} onClick={() => setMobileMenuOpen(false)}>
+              Beranda
+            </Link>
+          </li>
+          <li>
+            <Link to="/produk/all" className={isActive("/produk")} onClick={() => setMobileMenuOpen(false)}>
+              Produk
+            </Link>
+          </li>
+          <li>
+            <Link to="/mitra" className={isActive("/mitra")} onClick={() => setMobileMenuOpen(false)}>
+              Mitra
+            </Link>
+          </li>
+          <li>
+            <Link to="/portofolio" className={isActive("/portofolio")} onClick={() => setMobileMenuOpen(false)}>
+              Portofolio
+            </Link>
+          </li>
+          <li>
+            <Link to="/tentang/profil-perusahaan" className={isActive("/tentang")} onClick={() => setMobileMenuOpen(false)}>
+              Tentang Kami
+            </Link>
+          </li>
+        </ul>
+        <div className="flex flex-col space-y-2 px-6 pb-6 mt-auto">
+          <div className="flex items-center space-x-2 cursor-pointer hover:text-[#F46F22]">
+            <FaSearch />
+            <span>Search</span>
+          </div>
+          <Link
+            to="/keranjang"
+            className="flex items-center space-x-2 cursor-pointer hover:text-[#F46F22]"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <FaShoppingBasket />
+            <span>Keranjang (0)</span>
+          </Link>
+          {username ? (
+            <>
+              <Link
+                to="/profile"
+                className="flex items-center space-x-2 cursor-pointer hover:text-[#F46F22]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FaUser />
+                <span>{username}</span>
+              </Link>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleLogout();
+                }}
+                className="flex items-center space-x-2 cursor-pointer hover:text-red-500 text-left"
+              >
+                <FaUser />
+                <span>Logout</span>
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="flex items-center space-x-2 cursor-pointer hover:text-[#F46F22]"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <FaUser />
+              <span>Login</span>
+            </Link>
+          )}
+        </div>
+      </div>
+
       {/* Modal Logout */}
       {showLogoutConfirm && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white border border-[  #F46F22] rounded-xl shadow-lg p-6 w-[400px] text-center">
+          <div className="bg-white border border-[#F46F22] rounded-xl shadow-lg p-6 w-[400px] text-center">
             <h2 className="text-xl font-semibold text-orange-600 mb-4">
               Anda yakin untuk logout dari akun?
             </h2>
@@ -328,7 +439,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </section>
   );
 };
 
