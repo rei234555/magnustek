@@ -5,6 +5,15 @@ import { useNavigate } from "react-router-dom";
 const DetailKiosk = () => {
   const navigate = useNavigate();
 
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewForm, setReviewForm] = useState({
+    nama: "",
+    email: "",
+    judul: "",
+    deskripsi: "",
+  });
+
   const ukuranOptions = {
     43: 28177128,
     49: 30500000,
@@ -45,7 +54,7 @@ const DetailKiosk = () => {
     {
       nama: "Budi",
       tanggal: "2025-05-24",
-      rating: 5,
+      rating: 4,
       judul: "Fitur Lengkap dan Tahan Lama",
       deskripsi:
         "Kios ini dilengkapi dengan berbagai fitur canggih seperti pemindai QR, NFC, dan printer thermal. Kualitas materialnya kokoh dan terlihat tahan digunakan antrian personal di tempat ramai. Sangat recommended untuk kebutuhan bisnis.",
@@ -69,7 +78,7 @@ const DetailKiosk = () => {
     {
       nama: "Ramos",
       tanggal: "2025-05-04",
-      rating: 2,
+      rating: 3,
       judul: "Kurang Stabil dan Agak Lambat",
       deskripsi:
         "Sistem kadang tidak responsif jika disentuh dengan kasar. Layar kadang tidak merespon dengan baik, terutama saat digunakan oleh banyak orang secara bersamaan. Support teknis juga agak lambat merespon komplain.",
@@ -90,6 +99,127 @@ const DetailKiosk = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 text-gray-800">
+      {/* Modal Ulasan */}
+      {showReviewModal && (
+        <div className="fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center">
+          <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-4xl relative border-2 border-[#4E2C83]">
+            <button
+              className="absolute top-3 right-4 text-2xl font-bold text-gray-400 hover:text-[#F46F22]"
+              onClick={() => setShowReviewModal(false)}
+            >
+              &times;
+            </button>
+            <h2 className="text-xl font-bold text-start mb-6">
+              Beri Ulasan Tentang Produk
+            </h2>
+            <div className="flex items-center gap-3 mb-6">
+              <img
+                src="/produk/kiosk.png"
+                alt="Produk"
+                className="w-16 h-16 object-contain rounded-lg border"
+              />
+              <span className="font-semibold">
+                DIGITAL SIGNAGE WINDOWS TOUCHSCREEN
+              </span>
+            </div>
+            <div className="mb-4">
+              <label className="block font-semibold mb-2">
+                Beri Nilai Untuk Produk Ini
+              </label>
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setReviewRating(i)}
+                    className="focus:outline-none"
+                  >
+                    <Star
+                      size={32}
+                      fill={reviewRating >= i ? "#F46F22" : "none"}
+                      stroke="#F46F22"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+            <form className="space-y-4">
+              <div>
+                <label className="block font-semibold mb-1">
+                  Nama Panggilan
+                </label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Masukkan Nama Panggilan"
+                  value={reviewForm.nama}
+                  onChange={(e) =>
+                    setReviewForm({ ...reviewForm, nama: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Email</label>
+                <input
+                  type="email"
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Masukkan Email"
+                  value={reviewForm.email}
+                  onChange={(e) =>
+                    setReviewForm({ ...reviewForm, email: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">Judul Ulasan</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Masukkan Judul Ulasan"
+                  value={reviewForm.judul}
+                  onChange={(e) =>
+                    setReviewForm({ ...reviewForm, judul: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label className="block font-semibold mb-1">
+                  Deskripsi Ulasan
+                </label>
+                <textarea
+                  className="w-full border rounded px-3 py-2"
+                  rows={3}
+                  placeholder="Masukkan Deskripsi Ulasan"
+                  value={reviewForm.deskripsi}
+                  onChange={(e) =>
+                    setReviewForm({ ...reviewForm, deskripsi: e.target.value })
+                  }
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                *Penambahan ulasan perlu membuat akun terlebih dahulu.
+              </p>
+              <div className="flex gap-4 mt-4">
+                <button
+                  type="button"
+                  className="flex-1 bg-[#4E2C83] text-white py-2 rounded font-semibold hover:bg-[#F46F22] transition"
+                  onClick={() => setShowReviewModal(false)}
+                >
+                  Kirim Ulasan
+                </button>
+                <button
+                  type="button"
+                  className="flex-1 bg-red-600 text-white py-2 rounded font-semibold hover:bg-red-700 transition"
+                  onClick={() => setShowReviewModal(false)}
+                >
+                  Batal
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Produk Utama */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Gambar */}
@@ -117,7 +247,10 @@ const DetailKiosk = () => {
 
             {/* Tombol & Wishlist */}
             <div className="flex items-center space-x-4">
-              <button className="bg-[#4E2C83] text-white text-sm px-4 py-1.5 rounded-lg hover:bg-white hover:text-[#4E2C83] border border-[#4E2C83] transition">
+              <button
+                className="bg-[#4E2C83] text-white text-sm px-4 py-1.5 rounded-lg hover:bg-white hover:text-[#4E2C83] border border-[#4E2C83] transition"
+                onClick={() => setShowReviewModal(true)}
+              >
                 Beri Ulasan
               </button>
               <button
@@ -294,11 +427,11 @@ const DetailKiosk = () => {
                     <Star key={i} size={22} fill="currentColor" />
                   ))}
                   <span className="ml-2 text-gray-800 font-semibold text-lg">
-                    4.5 | 5 Ulasan
+                    4.5 | 6 Ulasan
                   </span>
                 </div>
                 <p className="text-sm text-gray-500">
-                  70% dari pembeli merasa puas dengan produk ini.
+                  *Pilih baris berikut untuk memfilter ulasan.
                 </p>
               </div>
 
@@ -332,7 +465,10 @@ const DetailKiosk = () => {
                 <p className="text-sm text-gray-500 mb-2">
                   Punya pengalaman dengan produk ini?
                 </p>
-                <button className="flex items-center justify-center w-full border rounded-md py-1.5 hover:border-[#F46F22] hover:text-[#F46F22] text-gray-500">
+                <button
+                  className="flex items-center justify-center w-full border rounded-md py-1.5 hover:border-[#F46F22] hover:text-[#F46F22] text-gray-500"
+                  onClick={() => setShowReviewModal(true)}
+                >
                   <Star className="mr-1" size={16} /> Tulis Ulasan
                 </button>
               </div>
@@ -492,64 +628,108 @@ const DetailKiosk = () => {
               </div>
             </section>
 
-            {/* Rating & Ulasan */}
-            <div className="border-b border-[#4E2C83] py-5 mb-20 pt-6 mt-10">
-              <h3 className="text-2xl font-bold text-[#4E2C83] mb-4">
-                Rating & Ulasan
-              </h3>
-              <div className="grid md:grid-cols-2 gap-8 items-start">
-                {/* Kiri: Ringkasan Rating */}
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="text-yellow-400 text-2xl">★★★★★</div>
-                    <span className="text-gray-600 text-lg font-medium">
-                      4.5 | 5 Ulasan
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#4E2C83] mb-2">
-                    *Pilih baris berikut untuk memfilter ulasan.
-                  </p>
-                  {/* Bar Rating */}
-                  {[5, 4, 3, 2, 1].map((star) => {
-                    const total = 5;
-                    const ratings = { 5: 2, 4: 1, 3: 2, 2: 0, 1: 0 };
-                    const count = ratings[star] || 0;
-                    const width = (count / total) * 100;
-                    return (
-                      <div key={star} className="flex items-center mb-1">
-                        <span className="w-4 text-sm">{star}</span>
-                        <div className="flex-1 h-3 bg-gray-300 rounded mx-2 relative overflow-hidden">
-                          <div
-                            className="h-full bg-yellow-400"
-                            style={{ width: `${width}%` }}
-                          ></div>
-                        </div>
-                        <span className="w-4 text-sm text-right">{count}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                {/* Kanan: Form Rating */}
-                <div className="flex flex-col items-end top-[50px]">
-                  <p className="text-sm text-[#4E2C83] mb-2">
-                    Beri ulasan untuk produk ini
-                  </p>
-                  <div className="flex gap-2 mb-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <button
-                        key={i}
-                        className="text-yellow-400 text-2xl border border-yellow-400 rounded p-2 hover:bg-yellow-100 transition"
-                      >
-                        ☆
-                      </button>
-                    ))}
-                  </div>
-                  <p className="text-xs text-[#4E2C83] mt-1">
-                    *Penambahan ulasan perlu membuat akun terlebih dahulu.
-                  </p>
-                </div>
+            {/* Bantuan Section */}
+            <section className="bg-white py-8 mt-20 ">
+              <div className="text-center mb-10 max-w-6xl mx-auto">
+                <h2 className="text-2xl md:text-3xl font-bold text-black">
+                  Bantuan & Akses Cepat
+                </h2>
+                <p className="text-black mt-2">
+                  Akses informasi lengkap dalam genggaman.
+                </p>
               </div>
-            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-20 max-w-7xl mx-auto place-items-center">
+                {[
+                  {
+                    title: "Hubungi Kami",
+                    desc: "Butuh jawaban cepat? Hubungi tim kami untuk konsultasi langsung seputar produk dan layanan.",
+                    icon: "/11.png",
+                    action: () =>
+                      window.open("https://wa.me/6285156949282", "_blank"),
+                  },
+                  {
+                    title: "Kirim Email ke Kami",
+                    desc: "Kirim pertanyaan, atau kerja sama melalui email dan tim kami akan segera merespons.",
+                    icon: "/12.png",
+                    action: () =>
+                      window.open(
+                        "https://mail.google.com/mail/?view=cm&fs=1&to=Magnustek@gmail.com&su=Konsultasi%20Produk%20Magnustek&body=Halo%20Magnustek%2C%20saya%20ingin%20bertanya%20tentang%20produk%20dan%20layanan.",
+                        "_blank"
+                      ),
+                  },
+                  {
+                    title: "Mitra Kami",
+                    desc: "Telah mendukung berbagai proyek besar di sektor periklanan, event, dan korporasi.",
+                    icon: "/7.png",
+                    action: () => (window.location.href = "/mitra"),
+                  },
+                  {
+                    title: "Pusat Bantuan Produk",
+                    desc: "Temukan panduan penggunaan dan solusi teknis untuk semua produk kami.",
+                    icon: "/13.png",
+                    action: () => (window.location.href = "/tentang/bantuan"),
+                  },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-[#F46F22] rounded-xl py-4 w-[300px] flex flex-col items-center text-white text-center shadow-lg"
+                  >
+                    <img
+                      src={item.icon}
+                      alt={item.title}
+                      className="w-auto h-36 mb-4"
+                    />
+                    <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                    <p className="text-[10px] mb-4">{item.desc}</p>
+                    <button
+                      className="w-12 h-12 bg-white text-[#F46F22] rounded-full flex items-center justify-center hover:bg-[#F46F22] hover:text-white hover:scale-110 transition-all duration-300 border-2"
+                      onClick={item.action}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Product Catalogue Section */}
+            <section className="bg-[#4E2C83] mx-auto max-w-11/12 py-6 px-4 md:px-12 rounded-xl mt-20 mb-20">
+              <div className="max-w-11/12 mx-auto text-center text-white">
+                <img
+                  src="/14.png"
+                  alt="Catalogue Icon"
+                  className="mx-auto w-auto h-48 mb-6"
+                />
+                <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                  Our Product Catalogue
+                </h2>
+                <p className="text-sm md:text-base mb-6">
+                  Unduh katalog lengkap kami untuk melihat semua spesifikasi
+                  produk, fitur unggulan, dan inspirasi penggunaan dalam
+                  berbagai sektor industri.
+                </p>
+                <a
+                  href="/downloads/Magnustek.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-white border border-white text-[#4E2C83] font-semibold py-2 px-5 rounded-full shadow hover:bg-[#4E2C83] hover:text-white transition"
+                >
+                  Download Katalog Produk
+                </a>
+              </div>
+            </section>
           </section>
         )}
       </div>

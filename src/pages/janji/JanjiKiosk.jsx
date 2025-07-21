@@ -19,6 +19,9 @@ const JanjiKiosk = () => {
     "16.00",
   ];
 
+  const [showWarning, setShowWarning] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const markerIcon = new L.Icon({
     iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
     iconSize: [25, 41],
@@ -30,13 +33,56 @@ const JanjiKiosk = () => {
 
   const handleTimeSelect = (time) => setSelectedTime(time);
   const handleSubmit = () => {
-    alert(
-      `Janji Temu pada ${selectedDate.toDateString()} jam ${selectedTime} dikonfirmasi.`
-    );
+    if (!selectedDate || !selectedTime) {
+      setShowWarning(true);
+      setTimeout(() => setShowWarning(false), 3000);
+      return;
+    }
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+      window.location.href = "/beli/beli-kiosk";
+    }, 2000);
   };
 
   return (
     <div className="max-w-11/12 mx-auto px-4 py-8">
+      {showWarning && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999] bg-white rounded-xl px-6 py-4 flex items-center gap-3 border-2 border-orange-400 shadow">
+          <img src="/warning.png" alt="!" className="w-10 h-10" />
+          <div>
+            <p className="text-orange-500 font-semibold text-md">
+              Harap Pilih Hari dan Waktu!
+            </p>
+            <p className="text-black text-sm">
+              Pilih hari dan waktu yang sudah tersedia.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {showSuccess && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-white rounded-xl px-8 py-5 flex items-center gap-4 shadow border border-green-400">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="12" fill="#fff" />
+            <path
+              d="M7 13.5L10.5 17L17 10.5"
+              stroke="#22C55E"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <div>
+            <p className="text-green-600 font-semibold text-lg mb-1">
+              Janji Temu Berhasil Dibuat!
+            </p>
+            <p className="text-black text-sm">
+              Silahkan menunggu konfirmasi dari admin.
+            </p>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-20">
         <div>
@@ -201,7 +247,7 @@ const JanjiKiosk = () => {
                   />
                 </svg>
               </span>
-              +62-851-5694-9282 
+              +62-851-5694-9282
             </a>
             <hr className="my-6 border-t-2 border-[#4E2C83]" />
             <div className="mb-2">

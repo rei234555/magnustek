@@ -28,6 +28,7 @@ import BeliKiosk from "./pages/beli/BeliKiosk";
 import JanjiKiosk from "./pages/janji/JanjiKiosk";
 import BayarKiosk from "./pages/bayar/BayarKiosk";
 import StatusKiosk from "./pages/status/StatusKiosk";
+import Berhasil from "./pages/berhasil/Berhasil";
 
 import ProfilPerusahaan from "./pages/ProfilPerusahaan";
 import Sertifikat from "./pages/Sertifikat";
@@ -84,6 +85,7 @@ function AppContent() {
         <Route path="/janji/janji-kiosk" element={<JanjiKiosk />} />
         <Route path="/bayar/bayar-kiosk" element={<BayarKiosk />} />
         <Route path="/status/status-kiosk" element={<StatusKiosk />} />
+        <Route path="/berhasil/berhasil-kiosk" element={<Berhasil />} />
 
         <Route path="/mitra" element={<Mitra />} />
         <Route

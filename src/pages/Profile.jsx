@@ -41,9 +41,10 @@ const Profile = () => {
           >
             Edit Profil
           </button>
-          <button 
+          <button
             onClick={() => navigate("/wishlist")}
-          className="bg-[#4E2C83] text-white px-6 py-2 rounded-lg shadow hover:bg-white hover:text-[#4E2C83] transition">
+            className="bg-[#4E2C83] text-white px-6 py-2 rounded-lg shadow hover:bg-white hover:text-[#4E2C83] transition"
+          >
             Wishlist
           </button>
         </div>
@@ -86,6 +87,14 @@ const Profile = () => {
               <div>
                 <p className="text-gray-500">Email</p>
                 <p className="text-[#F46F22]">{userData.email}</p>
+              </div>
+              <div>
+                <p className="text-gray-500">Password</p>
+                <p className="text-[#F46F22] tracking-widest select-none">
+                  {userData.password
+                    ? "●".repeat(userData.password.length)
+                    : "********"}
+                </p>
               </div>
               <div>
                 <p className="text-gray-500">Tanggal Lahir</p>
@@ -138,7 +147,7 @@ const Profile = () => {
       </section>
 
       {/* Section 2: Tabs */}
-      <div className="mt-8 border-b border-gray-300 flex justify-between text-center text-sm font-medium">
+      <div className="mt-12 border-b border-gray-300 flex justify-between text-center text-sm font-medium">
         {["pembelian", "ulasan", "janji"].map((tab) => (
           <button
             key={tab}
@@ -159,7 +168,7 @@ const Profile = () => {
       </div>
 
       {/* Section 3: Tab Content */}
-      <div className="mt-6">
+      <div className="mt-4 mb-20">
         {activeTab === "pembelian" && <RiwayatPembelian />}
         {activeTab === "ulasan" && <RiwayatUlasan />}
         {activeTab === "janji" && <JanjiTemu />}
@@ -169,4 +178,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

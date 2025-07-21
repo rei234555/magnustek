@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
-  
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -42,7 +41,7 @@ const Register = () => {
       setTimeout(() => {
         setShowModal(null);
         navigate("/login");
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -56,12 +55,12 @@ const Register = () => {
 
   return (
     <section
-      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center p-6 relative"
+      className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center p-4 sm:p-6 md:p-10 relative"
       style={{ backgroundImage: "url('/bg-magnus.png')" }}
     >
       {/* Modal */}
       {showModal === "error" && (
-        <div className="absolute top-5 z-50 bg-white rounded-xl px-6 py-4 flex items-center gap-3 border-2 border-yellow-400 shadow">
+        <div className="absolute top-18 left-1/2 -translate-x-1/2 z-50 bg-white rounded-xl px-6 py-4 flex items-center gap-3 border-2 border-yellow-400 shadow">
           <img src="/warning.png" alt="!" className="w-10 h-10" />
           <div>
             <p className="text-yellow-500 font-semibold text-md">
@@ -72,7 +71,7 @@ const Register = () => {
         </div>
       )}
       {showModal === "success" && (
-        <div className="absolute top-5 z-50 bg-white rounded-xl px-6 py-4 flex items-center gap-3 border-2 border-green-500 shadow">
+        <div className="absolute top-5 left-1/2 -translate-x-1/2 z-50 bg-white rounded-xl px-6 py-4 flex items-center gap-3 border-2 border-green-500 shadow">
           <img src="/succes.png" alt="✓" className="w-10 h-10" />
           <div>
             <p className="text-green-600 font-semibold text-md">
@@ -87,40 +86,46 @@ const Register = () => {
       )}
 
       {/* Logo and Header */}
-      <div className="flex items-center top-[20px] gap-2 mb-6">
+      <div className="flex items-center gap-2 mb-6">
         <Link to="/">
-          <img src="/Magnus.png" alt="MagnusTek" className="w-28" />
+          <img src="/Magnus.png" alt="MagnusTek" className="w-20 sm:w-28" />
         </Link>
-        <span className="text-xl text-orange-500 font-medium">Register</span>
+        <span className="text-xl sm:text-2xl text-orange-500 font-medium">
+          Register
+        </span>
       </div>
 
-      <div className="rounded-2xl px-6 py-6 w-full max-w-6xl bg-white/10 backdrop-blur-xs border border-[#F46F22]">
-        <div className="flex rounded-xl overflow-hidden">
+      <div className="rounded-2xl px-2 sm:px-6 py-6 w-full max-w-6xl bg-white/10 backdrop-blur-xs border border-[#F46F22]">
+        <div className="flex flex-col lg:flex-row rounded-xl overflow-hidden">
           {/* Kiri */}
-          <div className="w-[600px] flex flex-col items-center justify-center p-1">
-            <img src="/Magnus.png" alt="MagnusTek" className="w-36 mb-4" />
-            <h2 className="text-2xl font-semibold text-white mb-2 text-center">
+          <div className="w-full lg:w-[45%] flex flex-col items-center justify-center p-4 sm:p-8 bg-transparent">
+            <img
+              src="/Magnus.png"
+              alt="MagnusTek"
+              className="w-28 sm:w-36 mb-4"
+            />
+            <h2 className="text-xl sm:text-2xl font-semibold text-white mb-2 text-center">
               Get Started With Us
             </h2>
-            <p className="text-md text-white text-center">
+            <p className="text-sm sm:text-md text-white text-center">
               Ikuti langkah mudah untuk pengalaman berbelanja yang lebih baik di
               Magnustek
             </p>
           </div>
 
           {/* Kanan */}
-          <div className="bg-[#F46F22] p-6 text-white w-[700px]">
-            <h2 className="text-xl font-semibold text-center mb-2">
+          <div className="bg-[#F46F22] p-4 sm:p-6 text-white w-full lg:w-[55%]">
+            <h2 className="text-lg sm:text-xl font-semibold text-center mb-2">
               Registrasi Akun Anda
             </h2>
             <p className="text-center text-xs mb-6">
               Masukan Data Diri Anda Untuk Membuat Akun Anda.
             </p>
 
-            <div className="flex justify-center gap-6 mb-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-4">
               <button
                 onClick={handleGoogleRegister}
-                className="bg-white w-[150px] text-black flex items-center justify-center px-3 py-2 rounded-full shadow hover:bg-gray-50"
+                className="bg-white w-full sm:w-[150px] text-black flex items-center justify-center px-3 py-2 rounded-full shadow hover:bg-gray-50 mb-2 sm:mb-0"
               >
                 <img
                   src="https://img.icons8.com/color/20/google-logo.png"
@@ -131,7 +136,7 @@ const Register = () => {
               </button>
               <button
                 onClick={handleFacebookRegister}
-                className="bg-white w-[150px] text-black flex items-center justify-center px-3 py-2 rounded-full shadow hover:bg-gray-50"
+                className="bg-white w-full sm:w-[150px] text-black flex items-center justify-center px-3 py-2 rounded-full shadow hover:bg-gray-50"
               >
                 <img
                   src="https://img.icons8.com/fluency/20/facebook-new.png"
@@ -148,7 +153,7 @@ const Register = () => {
               <div className="flex-1 h-px bg-white"></div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mb-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
               <div>
                 <label className="text-xs">Nama Depan</label>
                 <input

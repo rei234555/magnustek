@@ -24,6 +24,16 @@ const RiwayatPembelian = () => {
       actions: ["Beli Lagi", "Hubungi Penjual", "Beri Ulasan Produk"],
       image: "/produk/LED-Indoor/P1.2.png",
     },
+    {
+      date: "10 Mei 2025",
+      product: "DIGITAL SIGNAGE WINDOWS TOUCHSCREEN",
+      qty: 1,
+      price: 28177128,
+      total: 28377128,
+      statusText: "Selesai",
+      actions: ["Beli Lagi", "Hubungi Penjual", "Beri Ulasan Produk"],
+      image: "/produk/kiosk.png",
+    },
   ];
 
   return (
