@@ -4,10 +4,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CategoryGrid from "../../components/CategoryGrid";
 
-
 const LED = () => {
   const [slide, setSlide] = useState(0);
-  const images = ["/hero/BG1.png", "/hero/BG2.png", "/hero/BG3.png"];
+  const images = ["/hero/BG4.png", "/hero/BG5.png"];
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   // const totalPages = 3;
@@ -307,7 +306,7 @@ const LED = () => {
   return (
     <section className="w-full overflow-hidden text-white bg-white">
       {/* Hero Carousel */}
-      <section className="relative h-[700px]">
+      <section className="relative h-[740px]">
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
           style={{

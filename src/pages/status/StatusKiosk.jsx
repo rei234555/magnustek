@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const StatusKiosk = () => {
+  const [showDetailModal, setShowDetailModal] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.location.href = "/berhasil/berhasil-kiosk";
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="min-h-screen flex flex-col bg-[#F8F9FB]">
       <section className="flex-1 flex items-start mt-10 justify-start">
@@ -8,7 +17,7 @@ const StatusKiosk = () => {
           <div className="bg-white rounded-xl shadow border border-gray-200">
             <div className="px-6 pt-4 pb-2 border-b border-gray-100">
               <span className="text-gray-700 font-semibold text-base">
-                Menunggu Pembayaran
+                Status Pembayaran
               </span>
             </div>
             <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-4">
@@ -126,7 +135,10 @@ const StatusKiosk = () => {
               </div>
             </div>
             <div className="flex flex-col md:flex-row gap-3 px-6 pb-4">
-              <button className="border border-green-500 text-green-500 font-semibold rounded-lg px-8 py-2 transition hover:bg-green-500 hover:text-white">
+              <button
+                className="border border-green-500 text-green-500 font-semibold rounded-lg px-8 py-2 transition hover:bg-green-500 hover:text-white"
+                onClick={() => setShowDetailModal(true)}
+              >
                 Lihat Detail
               </button>
               <button
@@ -138,6 +150,47 @@ const StatusKiosk = () => {
             </div>
           </div>
         </div>
+
+        {/* Modal: Detail Pembayaran */}
+        {showDetailModal && (
+          <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+            <div className="bg-white w-96 p-6 rounded-lg shadow-lg relative">
+              <button
+                className="absolute top-2 right-3 text-xl font-bold"
+                onClick={() => setShowDetailModal(false)}
+              >
+                &times;
+              </button>
+              <h3 className="font-semibold text-lg mb-4">Detail Pembayaran</h3>
+              <div className="text-sm text-gray-700">
+                <p className="flex justify-between">
+                  <span>Total Harga (1 Barang)</span>
+                  <span className="text-gray-400">Rp 28.177.128</span>
+                </p>
+                <p className="flex justify-between">
+                  <span>Total Ongkos Pengiriman</span>
+                  <span>Rp 200.000</span>
+                </p>
+                <hr className="my-2" />
+                <p className="flex justify-between font-semibold">
+                  <span>Total Bayar</span>
+                  <span>Rp 28.377.128</span>
+                </p>
+                <hr className="my-2" />
+                <p>Metode Pembayaran: BANK BCA</p>
+                <p className="mt-2 font-medium">Barang yang dibeli:</p>
+                <p className="text-gray-600">
+                  DIGITAL SIGNAGE WINDOWS TOUCHSCREEN
+                </p>
+                <p className="mt-2 font-medium">Alamat Pengiriman:</p>
+                <p className="text-gray-500 text-sm">
+                  Jl. Raya Menganti Babatan, Babatan, Kec. Wiyung, Surabaya,
+                  Jawa Timur 60227
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </section>
   );

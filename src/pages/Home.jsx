@@ -112,7 +112,10 @@ const Home = () => {
             maksimal. Cocok untuk kebutuhan indoor maupun outdoor dengan
             berbagai ukuran dan spesifikasi.
           </p>
-          <button className="bg-white text-[#F46F22] font-semibold py-2 px-10 mt-28 rounded-xl text-lg shadow hover:bg-[#F46F22] hover:text-white transition">
+          <button
+            className="bg-white text-[#F46F22] font-semibold py-2 px-10 mt-28 rounded-xl text-lg shadow hover:bg-[#F46F22] hover:text-white transition"
+            onClick={() => (window.location.href = "/produk/all")}
+          >
             Beli Sekarang
           </button>
         </div>
@@ -403,7 +406,8 @@ const Home = () => {
           </p>
           <a
             href="/downloads/Magnustek.pdf"
-            download="Magnustek.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-white border border-white text-[#4E2C83] font-semibold py-2 px-5 rounded-full shadow hover:bg-[#4E2C83] hover:text-white transition"
           >
             Download Katalog Produk

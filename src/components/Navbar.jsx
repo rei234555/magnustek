@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaShoppingBasket, FaUser, FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaSearch,
+  FaShoppingBasket,
+  FaUser,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -8,6 +14,11 @@ const Navbar = () => {
   const [username, setUsername] = useState(null);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  const [showNotFound, setShowNotFound] = useState(false);
 
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
@@ -104,34 +115,22 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/sub/indoor"
-                      className="hover:text-[#F46F22]"
-                    >
+                    <Link to="/sub/indoor" className="hover:text-[#F46F22]">
                       LED Indoor
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/sub/outdoor"
-                      className="hover:text-[#F46F22]"
-                    >
+                    <Link to="/sub/outdoor" className="hover:text-[#F46F22]">
                       LED Outdoor
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/sub/portable"
-                      className="hover:text-[#F46F22]"
-                    >
+                    <Link to="/sub/portable" className="hover:text-[#F46F22]">
                       Portable/Event Series
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/sub/banner"
-                      className="hover:text-[#F46F22]"
-                    >
+                    <Link to="/sub/banner" className="hover:text-[#F46F22]">
                       LED Banner
                     </Link>
                   </li>
@@ -153,10 +152,7 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/sub/all-in-one"
-                      className="hover:text-[#F46F22]"
-                    >
+                    <Link to="/sub/all-in-one" className="hover:text-[#F46F22]">
                       All in One Screen
                     </Link>
                   </li>
@@ -173,10 +169,7 @@ const Navbar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/sub/conference"
-                      className="hover:text-[#F46F22]"
-                    >
+                    <Link to="/sub/conference" className="hover:text-[#F46F22]">
                       Conference System
                     </Link>
                   </li>
@@ -225,9 +218,7 @@ const Navbar = () => {
 
         {/* Dropdown Tentang Kami */}
         <li className="group relative cursor-pointer flex items-center">
-          <span
-            className={`inline-block py-2 ${isDropdownActive("/tentang")}`}
-          >
+          <span className={`inline-block py-2 ${isDropdownActive("/tentang")}`}>
             Tentang Kami
           </span>
           {/* DROPDOWN CONTAINER */}
@@ -256,7 +247,7 @@ const Navbar = () => {
                       to="/tentang/bantuan"
                       className="font-semibold hover:text-[#F46F22]"
                     >
-                      Pusat Bantuan 
+                      Pusat Bantuan
                     </Link>
                   </li>
                 </ul>
@@ -268,10 +259,68 @@ const Navbar = () => {
 
       {/* Ikon Desktop */}
       <div className="hidden lg:flex items-center space-x-6 text-sm">
-        <div className="flex items-center space-x-1 cursor-pointer hover:text-[#F46F22]">
-          <FaSearch />
-          <span>Search</span>
-        </div>
+        {!showSearch ? (
+          // TAMPILAN SEBELUM DIKLIK: ikon + tulisan "Search"
+          <div
+            className="flex items-center space-x-2 cursor-pointer text-black"
+            onClick={() => setShowSearch(true)}
+          >
+            <FaSearch />
+            <span>Search</span>
+          </div>
+        ) : (
+          // TAMPILAN SETELAH DIKLIK: input search
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              autoFocus
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder="Search"
+              className="px-3 py-1 rounded-lg border border-[#F46F22] focus:outline-none text-black transition-all duration-200 w-32 focus:w-48"
+              style={{ transition: "width 0.3s" }}
+              onBlur={() => setShowSearch(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setShowNotFound(true);
+                  setShowSearch(false);
+                }
+              }}
+            />
+          </div>
+        )}
+
+        {showNotFound && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div
+              className="bg-white border-4 border-[#F6A700] rounded-2xl shadow-xl px-8 py-7 w-[730px] text-left relative"
+              style={{
+                boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
+              }}
+            >
+              <div className="flex items-center gap-5">
+                <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-[#FFF7E0] border-2 border-[#F6A700]">
+                  <img src="/warning.png" alt="!" className="w-10 h-10" />
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-[#F6A700] leading-tight mb-1">
+                    Lengkapi Data Terlebih Dahulu
+                  </p>
+                  <p className="text-black text-base">
+                    Isi semua data dengan benar.
+                  </p>
+                </div>
+              </div>
+              <button
+                className="block mx-auto bg-[#F46F22] text-white px-8 py-2.5 rounded-lg mt-7 font-semibold text-base hover:bg-orange-500 transition"
+                onClick={() => setShowNotFound(false)}
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        )}
+
         <Link
           to="/keranjang"
           className="flex items-center space-x-1 cursor-pointer hover:text-[#F46F22]"
@@ -343,27 +392,47 @@ const Navbar = () => {
         </div>
         <ul className="flex flex-col space-y-2 px-6 py-4 text-base font-medium">
           <li>
-            <Link to="/" className={isActive("/")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/"
+              className={isActive("/")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Beranda
             </Link>
           </li>
           <li>
-            <Link to="/produk/all" className={isActive("/produk")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/produk/all"
+              className={isActive("/produk")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Produk
             </Link>
           </li>
           <li>
-            <Link to="/mitra" className={isActive("/mitra")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/mitra"
+              className={isActive("/mitra")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Mitra
             </Link>
           </li>
           <li>
-            <Link to="/portofolio" className={isActive("/portofolio")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/portofolio"
+              className={isActive("/portofolio")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Portofolio
             </Link>
           </li>
           <li>
-            <Link to="/tentang/profil-perusahaan" className={isActive("/tentang")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              to="/tentang/profil-perusahaan"
+              className={isActive("/tentang")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Tentang Kami
             </Link>
           </li>
