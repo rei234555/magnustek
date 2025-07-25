@@ -572,7 +572,7 @@ const Navbar = () => {
         <div className="flex flex-col space-y-2 px-6 pb-6 mt-auto">
           <div className="flex items-center space-x-2 cursor-pointer hover:text-[#F46F22]">
             <FaSearch />
-            <span>Search</span>
+            <span>Cari</span>
           </div>
           <Link
             to="/keranjang"

@@ -103,7 +103,7 @@ const Home = () => {
         {/* Content on Top */}
         <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-semibold mb-6 drop-shadow-lg">
-            Magnustek LED Videotron
+            Magnustek
           </h1>
           <p className="text-lg font-medium max-w-7xl mb-8 drop-shadow-md">
             Temukan solusi tampilan visual terbaik untuk kebutuhan bisnis Anda.
