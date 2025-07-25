@@ -1,9 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Star, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const DetailKiosk = () => {
   const navigate = useNavigate();
+
+  const [showLoginRequired, setShowLoginRequired] = useState(false);
+
+  useEffect(() => {
+    if (showLoginRequired) {
+      const timer = setTimeout(() => {
+        setShowLoginRequired(false);
+        navigate("/login");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showLoginRequired]);
+
+  const handleBuyProduct = () => {
+    if (!username) {
+      setShowLoginRequired(true);
+      return;
+    }
+    navigate("/beli/beli-kiosk");
+  };
+
+  const [showReviewLoginModal, setShowReviewLoginModal] = useState(false);
+
+  useEffect(() => {
+    if (showReviewLoginModal) {
+      const timer = setTimeout(() => {
+        setShowReviewLoginModal(false);
+        navigate("/login");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showReviewLoginModal]);
+
+  const username = null;
+
+  const [showCartLoginModal, setShowCartLoginModal] = useState(false);
+
+  useEffect(() => {
+    if (showCartLoginModal) {
+      const timer = setTimeout(() => {
+        setShowCartLoginModal(false);
+        navigate("/login");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCartLoginModal]);
+
+  const handleAddToCart = () => {
+    if (!username) {
+      setShowCartLoginModal(true);
+      return;
+    }
+    navigate("/keranjang");
+  };
 
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
@@ -13,6 +67,18 @@ const DetailKiosk = () => {
     judul: "",
     deskripsi: "",
   });
+
+  const [showWishlistLoginModal, setShowWishlistLoginModal] = useState(false);
+
+  useEffect(() => {
+    if (showWishlistLoginModal) {
+      const timer = setTimeout(() => {
+        setShowWishlistLoginModal(false);
+        navigate("/login");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showWishlistLoginModal]);
 
   const ukuranOptions = {
     43: 28177128,
@@ -249,17 +315,66 @@ const DetailKiosk = () => {
             <div className="flex items-center space-x-4">
               <button
                 className="bg-[#4E2C83] text-white text-sm px-4 py-1.5 rounded-lg hover:bg-white hover:text-[#4E2C83] border border-[#4E2C83] transition"
-                onClick={() => setShowReviewModal(true)}
+                onClick={() => {
+                  if (!username) {
+                    setShowReviewLoginModal(true);
+                    return;
+                  }
+                  setShowReviewModal(true);
+                }}
               >
                 Beri Ulasan
               </button>
+
+              {showReviewLoginModal && (
+                <div className="fixed inset-0 flex items-start justify-center z-[9999]">
+                  <div className="mt-16 bg-white border-2 border-[#4E2C83] rounded-xl shadow-xl px-8 py-5 max-w-5xl flex items-center gap-4">
+                    <div className=" border-[#4E2C83]">
+                      <img src="/warning1.png" alt="!" className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-[#4E2C83] mb-1">
+                        Harap Melakukan Login!
+                      </p>
+                      <p className="text-black text-sm">
+                        Login diperlukan untuk menambahkan ulasan produk.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <button
-                onClick={() => navigate("/wishlist")}
+                onClick={() => {
+                  if (!username) {
+                    setShowWishlistLoginModal(true);
+                    return;
+                  }
+                  navigate("/wishlist");
+                }}
                 className="text-gray-400 hover:text-[#4E2C83] transition"
                 aria-label="Tambah ke Wishlist"
               >
                 <Heart size={28} />
               </button>
+
+              {showWishlistLoginModal && (
+                <div className="fixed inset-0 flex items-start justify-center z-[9999]">
+                  <div className="mt-16 bg-white border-2 border-[#F46F22] rounded-xl shadow-xl px-8 py-5 max-w-5xl flex items-center gap-4">
+                    <div className=" border-[#F46F22]">
+                      <img src="/warning.png" alt="!" className="w-8 h-8" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-[#F46F22] mb-1">
+                        Harap Melakukan Login!
+                      </p>
+                      <p className="text-black text-sm">
+                        Login diperlukan untuk menambahkan whistlist produk.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -305,18 +420,58 @@ const DetailKiosk = () => {
                 +
               </button>
             </div>
-            <button className="px-4 py-2 bg-[#4E2C83] text-white rounded-lg hover:bg-white hover:text-[#4E2C83] border-[#4E2C83] border transition">
+            <button
+              className="px-4 py-2 bg-[#4E2C83] text-white rounded-lg hover:bg-white hover:text-[#4E2C83] border-[#4E2C83] border transition"
+              onClick={handleAddToCart}
+            >
               Tambahkan ke Keranjang
             </button>
+
+            {showCartLoginModal && (
+              <div className="fixed inset-0 flex items-start justify-center z-[9999]">
+                <div className="mt-16 bg-white border-2 border-[#F46F22] rounded-xl shadow-xl px-8 py-5 max-w-5xl flex items-center gap-4">
+                  <div className=" border-[#F46F22]">
+                    <img src="/warning.png" alt="!" className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-[#F46F22] mb-1">
+                      Harap melakukan Login!
+                    </p>
+                    <p className="text-black text-sm">
+                      Login diperlukan untuk mengakses keranjang produk.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <button
               className="px-4 py-2 border border-[#F46F22] text-[#F46F22] rounded-lg hover:bg-[#F46F22] hover:text-white transition"
-              onClick={() => navigate("/beli/beli-kiosk")}
+              onClick={handleBuyProduct}
             >
               Beli Produk
             </button>
           </div>
         </div>
       </div>
+
+      {showLoginRequired && (
+        <div className="fixed inset-0 flex items-start justify-center z-[9999]">
+          <div className="mt-16 bg-white border-2 border-[#F6A700] rounded-xl shadow-xl px-8 py-5 max-w-5xl flex items-center gap-4">
+            <div className=" border-[#F6A700]">
+              <img src="/warning.png" alt="!" className="w-8 h-8" />
+            </div>
+            <div>
+              <p className="text-lg font-bold text-[#F6A700] mb-1">
+                Harap Melakukan Login!
+              </p>
+              <p className="text-black text-sm">
+                Login diperlukan untuk pembelian produk.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tab Navigasi */}
       <div className="relative mt-12">
