@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 import {
   FaSearch,
   FaShoppingBasket,
@@ -20,12 +21,28 @@ const Navbar = () => {
 
   const [showNotFound, setShowNotFound] = useState(false);
 
+  const [showLoginRequired, setShowLoginRequired] = useState(false);
+
+  useEffect(() => {
+    if (showLoginRequired) {
+      const timer = setTimeout(() => setShowLoginRequired(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showLoginRequired]);
+
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
     if (savedUsername) {
       setUsername(savedUsername);
     }
   }, []);
+
+  useEffect(() => {
+    if (showNotFound) {
+      const timer = setTimeout(() => setShowNotFound(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showNotFound]);
 
   const handleLogout = () => {
     setShowLogoutConfirm(true);
@@ -36,6 +53,83 @@ const Navbar = () => {
     setUsername(null);
     setShowLogoutConfirm(false);
     navigate("/");
+  };
+
+  const categories = [
+    { id: 1, title: "All", image: "/All-Logo.png", path: "/produk/all" },
+    {
+      id: 2,
+      title: "LED Display Solutions",
+      image: "/LED-Logo.png",
+      path: "/produk/LED",
+    },
+    {
+      id: 3,
+      title: "Commercial Display",
+      image: "/LED-Logo.png",
+      path: "/produk/commercial",
+    },
+    {
+      id: 4,
+      title: "Collaboration System",
+      image: "/LED-Logo.png",
+      path: "/produk/collaboration",
+    },
+    {
+      id: 5,
+      title: "Smart Digital",
+      image: "/LED-Logo.png",
+      path: "/produk/smart",
+    },
+  ];
+
+  const subCategories = [
+    { label: "Semua Produk", path: "/produk/all" },
+    { label: "LED Indoor", path: "/sub/indoor" },
+    { label: "LED Outdoor", path: "/sub/outdoor" },
+    { label: "Portable / Event Series", path: "/sub/portable" },
+    { label: "LED Banner", path: "/sub/banner" },
+    { label: "TV Wall/ Commercial Display", path: "/sub/tv-display" },
+    { label: "All In One Screen", path: "/sub/all-in-one" },
+    { label: "Conference System", path: "/sub/conference" },
+    { label: "Interactive Smartboard", path: "/sub/interactive" },
+    { label: "Standing Kiosk", path: "/sub/kiosk" },
+  ];
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const term = searchTerm.trim().toLowerCase();
+
+    // Cari di kategori utama
+    const mainCat = categories.find((cat) =>
+      cat.title.toLowerCase().includes(term)
+    );
+    if (mainCat) {
+      navigate(mainCat.path);
+      return;
+    }
+
+    // Cari di sub kategori
+    const subCat = subCategories.find((sub) =>
+      sub.label.toLowerCase().includes(term)
+    );
+    if (subCat) {
+      navigate(subCat.path);
+      return;
+    }
+
+    // Cari di produk
+    const prod = products.find(
+      (prod) =>
+        prod.title.toLowerCase().includes(term) ||
+        prod.category.toLowerCase().includes(term)
+    );
+    if (prod) {
+      navigate(`/sub/kiosk${encodeURIComponent(prod.title)}`);
+      return;
+    }
+
+    alert("Produk atau kategori tidak ditemukan.");
   };
 
   const isActive = (path) =>
@@ -282,6 +376,29 @@ const Navbar = () => {
               onBlur={() => setShowSearch(false)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  const term = searchText.trim().toLowerCase();
+
+                  // Cari di kategori utama
+                  const mainCat = categories.find((cat) =>
+                    cat.title.toLowerCase().includes(term)
+                  );
+                  if (mainCat) {
+                    navigate(mainCat.path);
+                    setShowSearch(false);
+                    return;
+                  }
+
+                  // Cari di sub kategori
+                  const subCat = subCategories.find((sub) =>
+                    sub.label.toLowerCase().includes(term)
+                  );
+                  if (subCat) {
+                    navigate(subCat.path);
+                    setShowSearch(false);
+                    return;
+                  }
+
+                  // Jika tidak ditemukan, tampilkan modal not found
                   setShowNotFound(true);
                   setShowSearch(false);
                 }
@@ -291,43 +408,58 @@ const Navbar = () => {
         )}
 
         {showNotFound && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div
-              className="bg-white border-4 border-[#F6A700] rounded-2xl shadow-xl px-8 py-7 w-[730px] text-left relative"
-              style={{
-                boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
-              }}
-            >
-              <div className="flex items-center gap-5">
-                <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-xl bg-[#FFF7E0] border-2 border-[#F6A700]">
-                  <img src="/warning.png" alt="!" className="w-10 h-10" />
-                </div>
-                <div>
-                  <p className="text-xl font-bold text-[#F6A700] leading-tight mb-1">
-                    Lengkapi Data Terlebih Dahulu
-                  </p>
-                  <p className="text-black text-base">
-                    Isi semua data dengan benar.
-                  </p>
-                </div>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="absolute top-24 left-1/2 -translate-x-1/2 bg-white border-2 border-[#F6A700] rounded-xl shadow-xl px-8 py-5 max-w-5xl flex items-center gap-4">
+              <div>
+                <img src="/warning.png" alt="!" className="w-8 h-8" />
               </div>
-              <button
-                className="block mx-auto bg-[#F46F22] text-white px-8 py-2.5 rounded-lg mt-7 font-semibold text-base hover:bg-orange-500 transition"
-                onClick={() => setShowNotFound(false)}
-              >
-                Tutup
-              </button>
+              <div>
+                <p className="text-lg font-bold text-[#F6A700] mb-1">
+                  Pencarian tidak ditemukan!
+                </p>
+                <p className="text-black text-sm">
+                  Cari data sesuai dengan produk yang ada.
+                </p>
+              </div>
+              {/* Button Tutup dihapus */}
             </div>
           </div>
         )}
 
         <Link
-          to="/keranjang"
+          to={username ? "/keranjang" : "#"}
           className="flex items-center space-x-1 cursor-pointer hover:text-[#F46F22]"
+          onClick={(e) => {
+            if (!username) {
+              e.preventDefault();
+              setShowLoginRequired(true);
+              setTimeout(() => {
+                navigate("/login");
+              }, 3000); // Modal muncul dulu, lalu pindah ke login setelah 3 detik
+            }
+          }}
         >
           <FaShoppingBasket />
           <span>Keranjang (0)</span>
         </Link>
+
+        {showLoginRequired && (
+          <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+            <div className="absolute top-16 left-1/2 -translate-x-1/2 bg-white border-2 border-red-500 rounded-xl shadow-xl px-8 py-4 max-w-5xl flex items-center gap-4">
+              <div className="border-[red-500]">
+                <img src="/error.png" alt="!" className="w-8 h-8" />
+              </div>
+              <div>
+                <p className="text-lg font-bold text-red-500 mb-1">
+                  Harap melakukan Login!
+                </p>
+                <p className="text-black text-sm">
+                  Login diperlukan untuk mengakses keranjang produk.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {username ? (
           <div className="relative group">
