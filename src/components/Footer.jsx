@@ -105,6 +105,18 @@ const Footer = () => {
                 <span>+62-851-5694-9282</span>
               </a>
             </li>
+            <li className="flex items-center gap-2">
+              {/* e-catalouge */}
+              <a
+                href="https://e-katalog.lkpp.go.id/katalog/produk/detail/64734205?type=general"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2"
+              >
+                <img src="/katalog.png" alt="katalog" className="w-6 h-6" />
+                <span>E-Catalogue</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
