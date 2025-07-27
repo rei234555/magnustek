@@ -46,7 +46,7 @@ const JanjiKiosk = () => {
   };
 
   return (
-    <div className="max-w-11/12 mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {showWarning && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999] bg-white rounded-xl px-6 py-4 flex items-center gap-3 border-2 border-orange-400 shadow">
           <img src="/warning.png" alt="!" className="w-10 h-10" />
@@ -84,7 +84,7 @@ const JanjiKiosk = () => {
         </div>
       )}
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-20">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between items-start mb-8 gap-8 sm:gap-20">
         <div>
           <h2 className="text-2xl font-bold mb-1">Buat Janji Temu</h2>
           <p className="text-base text-[#4E2C83]">
@@ -96,8 +96,9 @@ const JanjiKiosk = () => {
           <img
             src="/beli/kecilkiosk.png"
             alt="Produk"
-            className="w-20 h-20 object-contain rounded-lg border"
+            className="w-20 h-20 object-contain rounded-lg border max-w-[80px] max-h-[80px]"
           />
+
           <div>
             <div className="flex items-center gap-2">
               <span className="font-semibold text-sm md:text-base">
@@ -113,7 +114,7 @@ const JanjiKiosk = () => {
       </div>
 
       {/* Main Content */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Form Janji Temu */}
         <div>
           <div className="border-2 border-[#4E2C83] rounded-md p-6">
@@ -136,7 +137,7 @@ const JanjiKiosk = () => {
                 />
               </div>
               {/* Jam */}
-              <div className="flex-1 grid grid-cols-3 gap-4 items-start">
+              <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-4 items-start">
                 {times.map((time) => (
                   <button
                     key={time}
@@ -162,13 +163,13 @@ const JanjiKiosk = () => {
           <div className="flex flex-col md:flex-row gap-4 mt-6">
             <button
               onClick={handleSubmit}
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold text-base"
+              className="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold text-base"
               disabled={!selectedDate || !selectedTime}
             >
               Kirim Janji Temu
             </button>
             <button
-              className="border-2 border-red-500 text-red-500 px-8 py-3 rounded-lg font-semibold text-base bg-white hover:bg-red-50"
+              className="w-full md:w-auto border-2 border-red-500 text-red-500 px-8 py-3 rounded-lg font-semibold text-base bg-white hover:bg-red-50"
               type="button"
             >
               Cancel
@@ -179,10 +180,7 @@ const JanjiKiosk = () => {
         {/* Peta & Info */}
         <div>
           {/* Map */}
-          <div
-            className="rounded-xl overflow-hidden border-2 border-[#4E2C83] mb-4"
-            style={{ height: 444 }}
-          >
+          <div className="rounded-xl overflow-hidden border-2 border-[#4E2C83] mb-4 h-[300px] md:h-[444px]">
             <MapContainer
               center={position}
               zoom={16}

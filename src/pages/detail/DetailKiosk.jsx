@@ -6,6 +6,7 @@ const DetailKiosk = () => {
   const navigate = useNavigate();
 
   const [showLoginRequired, setShowLoginRequired] = useState(false);
+  const username = localStorage.getItem("username");
 
   useEffect(() => {
     if (showLoginRequired) {
@@ -15,10 +16,11 @@ const DetailKiosk = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [showLoginRequired]);
+  }, [showLoginRequired, navigate]);
 
   const handleBuyProduct = () => {
     if (!username) {
+      localStorage.setItem("redirectAfterLogin", "/detail/detail-kiosk");
       setShowLoginRequired(true);
       return;
     }
@@ -36,8 +38,6 @@ const DetailKiosk = () => {
       return () => clearTimeout(timer);
     }
   }, [showReviewLoginModal]);
-
-  const username = null;
 
   const [showCartLoginModal, setShowCartLoginModal] = useState(false);
 

@@ -36,7 +36,13 @@ const Login = () => {
       return;
     } else if (username === "user" && password === "12345678") {
       localStorage.setItem("username", username);
-      navigate("/");
+      const redirect = localStorage.getItem("redirectAfterLogin");
+      if (redirect) {
+        localStorage.removeItem("redirectAfterLogin");
+        navigate(redirect);
+      } else {
+        navigate("/");
+      }
       return;
     } else {
       if (username !== "admin" && username !== "user") {
